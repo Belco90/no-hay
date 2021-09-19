@@ -1,4 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
+import type { NextApiRequestWithCache } from '~/cache-middleware'
+import { cache } from '~/cache-middleware'
 
 type Data = {
   name: string
@@ -16,12 +18,33 @@ const random = (length = 8): string => {
   return str
 }
 
-const CACHE_SECONDS = 21600 // 6 hours
+const CACHE_MAX_AGE_IN_SEC = Number(process.env.CACHE_MAX_AGE_IN_SEC)
 
-export default function handler(
-  req: NextApiRequest,
+function handler(
+  req: NextApiRequestWithCache, // TODO: pass cache type to NextApiRequestWithCache
   res: NextApiResponse<Data>
 ): void {
-  res.setHeader('Cache-Control', `s-maxage=${CACHE_SECONDS}`)
-  res.status(200).json({ name: random() })
+  const cacheKey = encodeURIComponent(req.url ?? 'none')
+
+  if (req.cache.has(cacheKey)) {
+    const { data } = req.cache.get(cacheKey) as { data: Data }
+    res.setHeader('Cache-Control', `s-maxage=${CACHE_MAX_AGE_IN_SEC}`)
+    res.setHeader('X-Cache', 'HIT')
+
+    res.status(200).json(data)
+    return
+  }
+
+  // TODO: perform actual request here in the future and catch error
+  const randomString = random()
+
+  if (req.cache) {
+    req.cache.set(cacheKey, { data: { name: randomString } })
+  }
+
+  res.setHeader('Cache-Control', `no-cache`)
+  res.setHeader('X-Cache', 'MISS')
+  res.status(200).json({ name: randomString })
 }
+
+export default cache(handler)
