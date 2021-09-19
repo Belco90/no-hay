@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next dev",
-    "lint": "next lint",
+    "lint": "next lint --dir src",
+    "lint:fix": "yarn lint --fix",
     "type-check": "tsc --noEmit",
     "prettier-base": "prettier . --ignore-unknown",
     "format": "yarn prettier-base --write",
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@types/react": "17.0.21",
+    "@typescript-eslint/eslint-plugin": "^4.31.1",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "eslint-config-prettier": "^8.3.0",
