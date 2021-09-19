@@ -1,4 +1,4 @@
-interface GetNewsResponse {
+export interface GetNewsResponse {
   name: string
 }
 

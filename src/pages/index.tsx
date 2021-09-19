@@ -2,11 +2,10 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Heading, Box } from '@chakra-ui/react'
 import { getNews } from '~/api-client'
+import { useQuery } from 'react-query'
 
 const Home: NextPage = () => {
-  getNews().then((data) => {
-    console.log('fetch data', data)
-  })
+  const { isLoading, data } = useQuery('news', getNews)
 
   return (
     <Box
@@ -26,7 +25,7 @@ const Home: NextPage = () => {
 
       <Box as="main">
         <Heading as="h1" fontSize="6xl">
-          Se vienen cositas
+          {isLoading ? 'Cargando...' : data?.name}
         </Heading>
       </Box>
     </Box>
