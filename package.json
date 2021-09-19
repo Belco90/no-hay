@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next dev",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "prettier-base": "prettier . --ignore-unknown",
+    "format": "yarn prettier-base --write",
+    "format:check": "yarn prettier-base --check",
+    "prepare": "husky install"
   },
   "dependencies": {
     "next": "11.1.2",
@@ -17,6 +22,14 @@
     "@types/react": "17.0.21",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
+    "prettier": "2.4.1",
     "typescript": "4.4.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --fix --max-warnings 0",
+    "*": "prettier --write --ignore-unknown"
   }
 }
