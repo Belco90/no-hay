@@ -7,6 +7,8 @@ import { useQuery } from 'react-query'
 const Home: NextPage = () => {
   const { isLoading, data } = useQuery('news', getNews)
 
+  console.log(isLoading ? 'Cargando...' : data?.name ?? 'unknown')
+
   return (
     <Box
       display="flex"
@@ -25,7 +27,7 @@ const Home: NextPage = () => {
 
       <Box as="main">
         <Heading as="h1" fontSize="6xl">
-          {isLoading ? 'Cargando...' : data?.name}
+          Se vienen cositas
         </Heading>
       </Box>
     </Box>
