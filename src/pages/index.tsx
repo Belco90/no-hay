@@ -1,8 +1,13 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Heading, Box } from '@chakra-ui/react'
+import { getNews } from '~/api-client'
 
 const Home: NextPage = () => {
+  getNews().then((data) => {
+    console.log('fetch data', data)
+  })
+
   return (
     <Box
       display="flex"
