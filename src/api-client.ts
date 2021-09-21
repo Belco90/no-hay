@@ -3,7 +3,7 @@ export interface GetNewsResponse {
 }
 
 export function getNews(): Promise<GetNewsResponse> {
-  return fetch('/api/hello')
+  return fetch('/api/news')
     .then((response) => response.json())
     .then((data) => data)
 }
