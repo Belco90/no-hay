@@ -4,6 +4,10 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { theme } from '~/theme'
 
+if (process.env.NEXT_PUBLIC_API_MOCKING === 'enabled') {
+  import('~/mocks')
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
