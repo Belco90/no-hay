@@ -1,10 +1,20 @@
 import type { NextApiResponse } from 'next'
 import type { NextApiRequestWithCache } from '~/cache-middleware'
 import { cache } from '~/cache-middleware'
-import type { SuccessApiResponse } from '~/news-api-client'
+import type {
+  SuccessApiResponse,
+  RetrieveNewsRequestParams,
+} from '~/news-api-client'
 import { retrieveNews } from '~/news-api-client'
 
 const CACHE_MAX_AGE_IN_SEC = Number(process.env.CACHE_MAX_AGE_IN_SEC)
+
+const COMMON_REQUEST_PARAMS: Omit<RetrieveNewsRequestParams, 'q'> = {
+  lang: 'es',
+  countries: 'ES',
+  search_in: 'title',
+  page_size: 100,
+}
 
 async function handler(
   req: NextApiRequestWithCache, // TODO: pass cache type to NextApiRequestWithCache
@@ -23,7 +33,7 @@ async function handler(
     return
   }
 
-  const data = await retrieveNews()
+  const data = await retrieveNews({ ...COMMON_REQUEST_PARAMS, q: 'homofob*' })
 
   if (req.cache) {
     req.cache.set(cacheKey, { data })

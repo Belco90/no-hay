@@ -21,9 +21,24 @@ export interface ErrorApiResponse {
 
 export type ApiResponse = SuccessApiResponse | ErrorApiResponse
 
-export async function retrieveNews(): Promise<SuccessApiResponse> {
+export interface RetrieveNewsRequestParams {
+  q: string
+  lang?: string
+  countries?: string
+  search_in?: 'title' | 'summary'
+  page_size?: number
+}
+
+export async function retrieveNews({
+  page_size,
+  ...remainingParams
+}: RetrieveNewsRequestParams): Promise<SuccessApiResponse> {
+  const searchParams = new URLSearchParams({
+    ...remainingParams,
+    page_size: String(page_size),
+  })
   const response = await fetch(
-    `${NEWS_BASE_URL}/v2/search?q=homofob*&lang=es&countries=ES&search_in=title&page_size=100`,
+    `${NEWS_BASE_URL}/v2/search?${searchParams.toString()}`,
     {
       method: 'GET',
       headers: {
