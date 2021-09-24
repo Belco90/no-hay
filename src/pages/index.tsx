@@ -1,13 +1,13 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Heading, Box } from '@chakra-ui/react'
-import { getNews } from '~/api-client'
+import { getNews } from '~/api-routes-client'
 import { useQuery } from 'react-query'
 
 const Home: NextPage = () => {
   const { isLoading, data } = useQuery('news', getNews)
 
-  console.log(isLoading ? 'Cargando...' : data?.name ?? 'unknown')
+  console.log(isLoading ? 'Cargando...' : data?.articles ?? 'unknown')
 
   return (
     <Box
