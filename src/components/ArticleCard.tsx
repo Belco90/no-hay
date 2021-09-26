@@ -1,8 +1,19 @@
 import { Link, Flex, Heading, Text, VStack, Image } from '@chakra-ui/react'
 import { parseISO } from 'date-fns'
+import styled from '@emotion/styled'
 
 import type { Article } from '~/models'
 import { formatDistanceToNow } from '~/lib/date'
+
+const StyledLink = styled(Link)`
+  :hover {
+    text-decoration: none;
+
+    .underline-child {
+      text-decoration: underline;
+    }
+  }
+`
 
 interface ArticleCardProps {
   article: Article
@@ -10,7 +21,7 @@ interface ArticleCardProps {
 
 export const ArticleCard = ({ article }: ArticleCardProps): JSX.Element => {
   return (
-    <Link href={article.link} isExternal width="100%">
+    <StyledLink href={article.link} isExternal width="100%">
       <Flex
         borderWidth="1px"
         borderRadius="md"
@@ -22,7 +33,7 @@ export const ArticleCard = ({ article }: ArticleCardProps): JSX.Element => {
           <Text as="span" fontSize="sm">
             {article.rights ?? 'Desconocido'}
           </Text>
-          <Heading as="h2" fontSize="lg">
+          <Heading as="h2" fontSize="lg" className="underline-child">
             {article.title}
           </Heading>
           <Text noOfLines={3}>{article.summary}</Text>
@@ -37,10 +48,10 @@ export const ArticleCard = ({ article }: ArticleCardProps): JSX.Element => {
           boxSize="120px"
           objectFit="cover"
           marginLeft="8"
-          fallbackSrc="https://via.placeholder.com/150"
+          fallbackSrc="https://via.placeholder.com/120"
           borderRadius="md"
         />
       </Flex>
-    </Link>
+    </StyledLink>
   )
 }
