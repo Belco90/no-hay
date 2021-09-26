@@ -1,4 +1,12 @@
-import { Link, Flex, Heading, Text, VStack, Image } from '@chakra-ui/react'
+import {
+  Link,
+  Flex,
+  Heading,
+  Text,
+  VStack,
+  Image,
+  useColorModeValue,
+} from '@chakra-ui/react'
 import { parseISO } from 'date-fns'
 import styled from '@emotion/styled'
 
@@ -20,6 +28,7 @@ interface ArticleCardProps {
 }
 
 export const ArticleCard = ({ article }: ArticleCardProps): JSX.Element => {
+  const altTextColor = useColorModeValue('gray.600', 'gray.400')
   return (
     <StyledLink href={article.link} isExternal width="100%">
       <Flex
@@ -30,14 +39,14 @@ export const ArticleCard = ({ article }: ArticleCardProps): JSX.Element => {
         width="100%"
       >
         <VStack alignItems="start">
-          <Text as="span" fontSize="sm">
-            {article.rights ?? 'Desconocido'}
+          <Text as="span" fontSize="sm" color={altTextColor}>
+            {article.rights || 'Desconocido'}
           </Text>
           <Heading as="h2" fontSize="lg" className="underline-child">
             {article.title}
           </Heading>
           <Text noOfLines={3}>{article.summary}</Text>
-          <Text as="em" fontSize="sm">
+          <Text as="em" fontSize="sm" color={altTextColor}>
             {formatDistanceToNow(parseISO(article.published_date))}
           </Text>
         </VStack>
