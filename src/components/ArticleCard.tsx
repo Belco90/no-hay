@@ -40,7 +40,7 @@ export const ArticleCard = ({ article }: ArticleCardProps): JSX.Element => {
       >
         <VStack alignItems="start">
           <Text as="span" fontSize="sm" color={altTextColor}>
-            {article.rights || 'Desconocido'}
+            {article.clean_url || 'Desconocido'}
           </Text>
           <Heading as="h2" fontSize="lg" className="underline-child">
             {article.title}
