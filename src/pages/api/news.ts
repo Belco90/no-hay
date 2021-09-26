@@ -6,6 +6,7 @@ import type {
   RetrieveNewsRequestParams,
 } from '~/news-api-client'
 import { retrieveNews } from '~/news-api-client'
+import type { MainTopic } from '~/models'
 
 const CACHE_MAX_AGE_IN_SEC = Number(process.env.CACHE_MAX_AGE_IN_SEC)
 
@@ -20,7 +21,8 @@ async function handler(
   req: NextApiRequestWithCache, // TODO: pass cache type to NextApiRequestWithCache
   res: NextApiResponse<SuccessApiResponse>
 ): Promise<undefined> {
-  // TODO: use req.url + params to cache different topics responses properly
+  // req.url contains the api endpoint + query strings,
+  // so it should be enough for identifying each request cache.
   const cacheKey = encodeURIComponent(req.url ?? 'none')
 
   if (req.cache.has(cacheKey)) {
@@ -33,7 +35,9 @@ async function handler(
     return
   }
 
-  const data = await retrieveNews({ ...COMMON_REQUEST_PARAMS, q: 'homofob*' })
+  const { topic } = req.query as { topic: MainTopic }
+  // TODO: map `topic` to corresponding NewsCatcher query
+  const data = await retrieveNews({ ...COMMON_REQUEST_PARAMS, q: topic })
 
   if (req.cache) {
     req.cache.set(cacheKey, { data })

@@ -1,3 +1,5 @@
+export type MainTopic = 'homophobia' | 'fascism' | 'racism' | 'sexism'
+
 type ArticleTopic =
   | 'news'
   | 'sport'
