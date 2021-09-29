@@ -14,11 +14,12 @@ type TopicChoice = MainTopic | ''
 
 const Home: NextPage = () => {
   const [topic, setTopic] = useState<TopicChoice>('')
+  const isTopicSelected = topic !== ''
   const { isLoading, data } = useQuery(
     ['news', { topic }],
     () => getNews({ topic: topic as MainTopic }),
     {
-      enabled: !!topic,
+      enabled: isTopicSelected,
     }
   )
 
@@ -26,7 +27,7 @@ const Home: NextPage = () => {
     setTopic(event.target.value as TopicChoice)
   }
 
-  const shouldShowResults = !!topic && !isLoading
+  const shouldShowResults = isTopicSelected && !isLoading
 
   return (
     <Container
@@ -35,7 +36,7 @@ const Home: NextPage = () => {
       minHeight="100vh"
       paddingY="4"
       paddingX="2"
-      justifyContent={!!topic ? 'start' : 'center'}
+      justifyContent="center"
     >
       <Head>
         <title>No hay</title>
@@ -44,11 +45,16 @@ const Home: NextPage = () => {
       </Head>
 
       <Box as="main">
-        <HStack width="full" justifyContent="center">
-          <Heading as="h1" fontSize="6xl">
-            Pero si ya no hay
+        <HStack width="full" justifyContent="start" alignItems="baseline">
+          <Heading
+            as="label"
+            fontSize="6xl"
+            htmlFor="topic-select"
+            fontWeight="regular"
+          >
+            No hay
           </Heading>
-          <TopicSelect onChange={handleTopicChange} />
+          <TopicSelect id="topic-select" onChange={handleTopicChange} />
         </HStack>
 
         <Box marginBottom="12" />

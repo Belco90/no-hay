@@ -6,9 +6,10 @@ export const TopicSelect = (props: SelectProps): JSX.Element => {
   return (
     <Select
       placeholder="..."
-      variant="unstyled"
-      size="lg"
+      variant="flushed"
       width="auto"
+      fontSize="4xl"
+      fontWeight="bold"
       {...props}
     >
       {TOPICS.map((topic) => (
