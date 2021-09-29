@@ -2,19 +2,13 @@ import type { ChangeEvent } from 'react'
 import { useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import {
-  Heading,
-  Box,
-  Container,
-  VStack,
-  HStack,
-  Select,
-} from '@chakra-ui/react'
+import { Box, Container, Heading, HStack, VStack } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 
 import type { MainTopic } from '~/models'
 import { getNews } from '~/api-routes-client'
 import { ArticleCard } from '~/components/ArticleCard'
+import { TopicSelect } from '~/components/TopicSelect'
 
 type TopicChoice = MainTopic | ''
 
@@ -54,18 +48,7 @@ const Home: NextPage = () => {
           <Heading as="h1" fontSize="6xl">
             Pero si ya no hay
           </Heading>
-          <Select
-            placeholder="..."
-            variant="flushed"
-            size="lg"
-            width="auto"
-            onChange={handleTopicChange}
-          >
-            <option value="homophobia">homofobia</option>
-            <option value="fascism">fascismo</option>
-            <option value="racism">racismo</option>
-            <option value="sexism">machismo</option>
-          </Select>
+          <TopicSelect onChange={handleTopicChange} />
         </HStack>
 
         <Box marginBottom="12" />
