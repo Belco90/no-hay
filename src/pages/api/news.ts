@@ -17,6 +17,17 @@ const COMMON_REQUEST_PARAMS: Omit<RetrieveNewsRequestParams, 'q'> = {
   page_size: 100,
 }
 
+function getTopicQuery(topic: MainTopic): string {
+  const newsQuery = process.env[`NEWS_API_${topic.toUpperCase()}_QUERY`]
+
+  if (!newsQuery) {
+    // TODO: log this as an error somewhere
+    return `query for ${topic} not set`
+  }
+
+  return newsQuery
+}
+
 async function handler(
   req: NextApiRequestWithCache, // TODO: pass cache type to NextApiRequestWithCache
   res: NextApiResponse<SuccessApiResponse>
@@ -36,8 +47,10 @@ async function handler(
   }
 
   const { topic } = req.query as { topic: MainTopic }
-  // TODO: map `topic` to corresponding NewsCatcher query
-  const data = await retrieveNews({ ...COMMON_REQUEST_PARAMS, q: topic })
+  const data = await retrieveNews({
+    ...COMMON_REQUEST_PARAMS,
+    q: getTopicQuery(topic),
+  })
 
   if (req.cache) {
     req.cache.set(cacheKey, { data })
