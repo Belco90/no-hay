@@ -1,4 +1,18 @@
-export type MainTopic = 'homophobia' | 'fascism' | 'racism' | 'sexism'
+export const TOPICS = [
+  'homophobia',
+  'fascism',
+  'racism',
+  'gender_related_violence',
+] as const
+
+export type MainTopic = typeof TOPICS[number]
+
+export const TOPIC_TRANSLATION_MAP: Record<MainTopic, string> = {
+  fascism: 'fascismo',
+  gender_related_violence: 'violencia de género',
+  homophobia: 'homofobia',
+  racism: 'racismo',
+}
 
 type ArticleTopic =
   | 'news'
