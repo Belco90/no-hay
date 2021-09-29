@@ -2,7 +2,7 @@ import type { ChangeEvent } from 'react'
 import { useState } from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { Box, Container, Heading, HStack, VStack } from '@chakra-ui/react'
+import { Box, Container, Heading, Stack, VStack } from '@chakra-ui/react'
 import { useQuery } from 'react-query'
 
 import type { MainTopic } from '~/models'
@@ -45,7 +45,12 @@ const Home: NextPage = () => {
       </Head>
 
       <Box as="main">
-        <HStack width="full" justifyContent="start" alignItems="baseline">
+        <Stack
+          direction={['column', 'row']}
+          width="full"
+          justifyContent="start"
+          alignItems="baseline"
+        >
           <Heading
             as="label"
             fontSize="6xl"
@@ -55,7 +60,7 @@ const Home: NextPage = () => {
             No hay
           </Heading>
           <TopicSelect id="topic-select" onChange={handleTopicChange} />
-        </HStack>
+        </Stack>
 
         <Box marginBottom="12" />
 
